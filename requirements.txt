@@ -1,0 +1,9 @@
+langchain
+langchain-core
+
+langchain-groq
+langgraph
+dotenv
+
+tavily-python
+groq 
