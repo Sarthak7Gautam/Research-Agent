@@ -4,3 +4,20 @@ llm:
     model_name: llama-3.3-70b-versatile
     temperature: 0.5
     max_output_tokens: 2048
+
+  openai:
+    provider: openai 
+    model: deepseek-ai/DeepSeek-V4-Pro:novita
+    base_url: https://router.huggingface.co/v1
+    temperature: 0.5
+    max_output_tokens: 2048
+
+
+  openai:
+    provider: openai
+    model: nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16:featherless-ai
+    base_url: https://router.huggingface.co/v1
+    temperature: 0.5
+    max_output_tokens: 2048
+
+
