@@ -119,7 +119,3 @@ class LLMInitialization:
 
             return model
         
-
-if __name__ == "__main__":
-    llm = LLMInitialization()
-    llm.load_nvidia_llm()
