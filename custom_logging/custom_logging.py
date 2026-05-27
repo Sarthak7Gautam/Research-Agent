@@ -21,6 +21,10 @@ class CustomLogging:
     def custom_logger(self):
 
         std_logger = logging.getLogger()
+
+        if std_logger.hasHandlers():
+            return structlog.get_logger()
+
         std_logger.setLevel(level=logging.INFO)
 
         file_handler = logging.FileHandler(filename=str(self.session_file))
@@ -31,21 +35,16 @@ class CustomLogging:
 
         structlog.configure(
             processors=[
-                structlog.processors.add_log_level,
-                structlog.processors.TimeStamper(fmt="iso"),
-                structlog.processors.EventRenamer(to="msg"),
-                structlog.processors.CallsiteParameterAdder(
-                    {
-                        structlog.processors.CallsiteParameter.FILENAME,
-                        structlog.processors.CallsiteParameter.FUNC_NAME,
-                        structlog.processors.CallsiteParameter.LINENO,
-                    }
-                ),
+                structlog.stdlib.filter_by_level,
+                structlog.processors.TimeStamper(fmt="iso", utc=True, key="timestamp"),
+                structlog.stdlib.add_log_level,
                 structlog.processors.dict_tracebacks,
+                structlog.processors.EventRenamer(to="msg"),
                 structlog.processors.JSONRenderer(indent=4),
             ],
-            cache_logger_on_first_use=True,
             logger_factory=structlog.stdlib.LoggerFactory(),
+            wrapper_class=structlog.stdlib.BoundLogger,
+            cache_logger_on_first_use=True,
         )
 
         return structlog.get_logger()
