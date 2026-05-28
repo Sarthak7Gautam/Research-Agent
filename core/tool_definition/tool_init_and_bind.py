@@ -20,17 +20,11 @@ def make_websearch(query: str, max_results: int = 2, search_depth: str = "basic"
     """This tool makes a web search on the Tavily Search API"""
 
     tools = TavilySearch(max_results=max_results, search_depth=search_depth)
-    results = tools.invoke({"query": f"{query}"})
-    urls = []
-    contents = []
-    for result in results["results"]:
-        if result.get("url"):
-            urls.append(result.get("url"))
+    response = tools.run(query)
 
-        if result.get("content"):
-            contents.append(result.get("content"))
+    extracted_content = response["results"][0]["content"]
 
-    return urls, contents
+    return extracted_content
 
 
 model = LLMInitialization().load_groq_llm()
